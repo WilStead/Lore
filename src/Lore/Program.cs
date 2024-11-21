@@ -5,6 +5,7 @@ using Lore.Data;
 using Lore.Services.Email;
 using Marten;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Tavenem.DataStorage;
@@ -69,6 +70,11 @@ builder.Services.AddWikiServer(
     config => config.ConfigureUserManager(provider => provider.GetRequiredService<ApplicationUserStore>()));
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
