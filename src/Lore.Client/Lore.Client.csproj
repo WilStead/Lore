@@ -15,4 +15,8 @@
     <PackageReference Include="Tavenem.Wiki.Blazor.Client" Version="0.10.1-preview" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TrimmerRootDescriptor Include="..\Trim.xml" />
+  </ItemGroup>
+
 </Project>
