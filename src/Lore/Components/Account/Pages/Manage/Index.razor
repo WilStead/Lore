@@ -1,0 +1,70 @@
+﻿@page "/Account/Manage"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using Lore.Data
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+
+<PageTitle>Profile</PageTitle>
+
+<h3>Profile</h3>
+<StatusMessage />
+
+<div class="container-sm align-items-stretch">
+    <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="danger" role="alert" />
+        <TextInput @bind-Value="Input.Username"
+                   Label="Username"
+                   Placeholder="Please choose your username"
+                   Required="true">
+            <div slot="helpers">
+                <ValidationMessage For="() => Input.Username" class="danger" />
+            </div>
+        </TextInput>
+        <button type="submit" class="w-100 btn primary">Save</button>
+    </EditForm>
+</div>
+
+@code {
+    private ApplicationUser user = default!;
+    private string? username;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        username = await UserManager.GetUserNameAsync(user);
+
+        Input.Username ??= username;
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (Input.Username != username)
+        {
+            var setUsernameResult = await UserManager.SetUserNameAsync(user, Input.Username);
+            if (!setUsernameResult.Succeeded)
+            {
+                RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set username.", HttpContext);
+            }
+        }
+
+        await SignInManager.RefreshSignInAsync(user);
+        RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
+    }
+
+    private sealed class InputModel
+    {
+        public string? Username { get; set; }
+    }
+}

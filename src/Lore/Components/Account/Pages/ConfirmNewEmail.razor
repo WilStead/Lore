@@ -1,0 +1,123 @@
+﻿@page "/Account/ConfirmNewEmail"
+
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+@using Lore.Data
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+@inject ILogger<ConfirmNewEmail> Logger
+
+<PageTitle>Confirm email</PageTitle>
+
+<h1>Confirm email</h1>
+<StatusMessage Message="@statusMessage" />
+<div class="container-sm align-items-stretch">
+    <EditForm Model="Input" FormName="change-password" OnValidSubmit="OnValidSubmitAsync" method="post">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="danger" role="alert" />
+        <TextInput @bind-Value="Input.NewPassword"
+        InputType="InputType.Password"
+        Label="New password"
+        Placeholder="Please enter your new password"
+        Required="true">
+            <div slot="helpers">
+                <ValidationMessage For="() => Input.NewPassword" class="danger" />
+            </div>
+        </TextInput>
+        <TextInput @bind-Value="Input.ConfirmPassword"
+        InputType="InputType.Password"
+        Label="Confirm password"
+        Placeholder="Please confirm your new password"
+        Required="true">
+            <div slot="helpers">
+                <ValidationMessage For="() => Input.ConfirmPassword" class="danger" />
+            </div>
+        </TextInput>
+        <button type="submit" class="w-100 btn primary">Set password</button>
+    </EditForm>
+</div>
+
+@code {
+    private string? emailCode;
+    private string? statusMessage;
+    private ApplicationUser? user;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    [SupplyParameterFromQuery]
+    private string? UserId { get; set; }
+
+    [SupplyParameterFromQuery]
+    private string? Code { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserId is null || Code is null)
+        {
+            RedirectManager.RedirectTo("");
+        }
+
+        user = await UserManager.FindByIdAsync(UserId);
+        if (user is null)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+            statusMessage = $"Error loading user with ID {UserId}";
+        }
+        else
+        {
+            emailCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
+            statusMessage = "Please select a password.";
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (user is null || string.IsNullOrEmpty(emailCode))
+        {
+            RedirectManager.RedirectTo("");
+            return;
+        }
+
+        var result = await UserManager.ConfirmEmailAsync(user, emailCode);
+        if (!result.Succeeded)
+        {
+            statusMessage = "Error confirming your account.";
+            return;
+        }
+
+        var setPasswordResult = await UserManager.AddPasswordAsync(user, Input.NewPassword);
+        if (!setPasswordResult.Succeeded)
+        {
+            statusMessage = $"Error: {string.Join(",", setPasswordResult.Errors.Select(error => error.Description))}";
+            return;
+        }
+
+        await SignInManager.RefreshSignInAsync(user);
+        Logger.LogInformation("User set their password and confirmed their email successfully.");
+
+        RedirectManager.RedirectToCurrentPageWithStatus("Account confirmed successfully!", HttpContext);
+    }
+
+    private sealed class InputModel
+    {
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; } = "";
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; } = "";
+    }
+}

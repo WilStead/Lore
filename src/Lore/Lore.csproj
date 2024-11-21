@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-Lore-fe41b433-7a7d-44d6-abcc-5640f82a8a24</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lore.Client\Lore.Client.csproj" />
+    <PackageReference Include="Marten" Version="7.33.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    <PackageReference Include="Tavenem.DataStore.Marten" Version="1.0.2" />
+    <PackageReference Include="Tavenem.Wiki.Blazor.Server" Version="0.10.1-preview" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,104 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+#app {
+    height: 100vh;
+    position: relative;
+}
+
+.wiki-sidebar-logo-link {
+    background-image: url(../images/tavenemlogo_sq_inset.svg);
+}
+
+.wiki-link-preview h1 {
+    font-size: 1.25rem;
+}
+
+.wiki-link-preview h2 {
+    font-size: 1.2rem;
+}
+
+.wiki-link-preview h3 {
+    font-size: 1.15rem;
+}
+
+.wiki-link-preview h4 {
+    font-size: 1.125rem;
+}
+
+.wiki-link-preview h5 {
+    font-size: 1.1rem;
+}
+
+.wiki-link-preview h6 {
+    font-size: 1rem;
+}
+
+.wiki-mainpage {
+    display: flex;
+
+    > div:first-child {
+        flex-grow: 1;
+        min-width: 640px;
+    }
+}
+
+.wiki-mainpage-topbox {
+    background-color: var(--tavenem-color-bg-alt);
+    border: 1px solid var(--tavenem-color-border);
+    clear: both;
+    display: flex;
+    flex-flow: row wrap;
+    margin-bottom: 1.2em;
+    min-width: 47em;
+    white-space: nowrap;
+    width: 100%;
+
+    > div {
+        flex-grow: 1;
+        margin: .4em;
+        min-width: 22em;
+        text-align: center;
+
+        div:first-child {
+            font-size: 162%;
+            padding: .1em;
+        }
+
+         div:last-child {
+            font-size: 95%;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        margin: 0;
+        min-width: 14em;
+        padding-right: 1em;
+    }
+}
+
+.wiki-username-admin {
+    content: url(../images/shield.svg);
+    display: inline-block;
+    filter: drop-shadow(0 0 .2rem #ffec82);
+    margin-right: .2rem;
+    vertical-align: middle;
+    width: .8rem;
+}
+
+.wiki-username-c6798a76-7831-4675-959b-2951566ef068 {
+    content: url(../images/tavenemlogo.svg);
+    display: inline-block;
+    filter: drop-shadow(0 0 .2rem #7f00ff);
+    margin-right: .1rem;
+    vertical-align: middle;
+    width: 1.9rem;
+}

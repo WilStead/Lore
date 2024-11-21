@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+@code {
+    [Inject, System.Diagnostics.CodeAnalysis.NotNull] private NavigationManager? Navigation { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Navigation.NavigateTo("/wiki");
+        await Task.CompletedTask;
+    }
+}

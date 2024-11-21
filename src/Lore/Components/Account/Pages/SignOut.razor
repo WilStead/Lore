@@ -1,0 +1,22 @@
+﻿@page "/Account/SignOut"
+
+@using Microsoft.AspNetCore.Identity
+@using Lore.Data
+
+@inject IdentityRedirectManager RedirectManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+<PageTitle>Sign Out</PageTitle>
+
+<h1>Sign Out</h1>
+<StatusMessage />
+
+<p>Signing out...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SignInManager.SignOutAsync();
+        RedirectManager.RedirectTo("");
+    }
+}
