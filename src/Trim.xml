@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <linker>
-  <assembly fullname="Tavenem.Blazor.Framework">
-    <type fullname="Tavenem.Blazor.Framework.SnackbarContainer" preserve="all" />
-    <type fullname="Tavenem.Blazor.Framework.DialogContainer" preserve="all" />
-  </assembly>
+  <assembly fullname="Tavenem.Blazor.Framework" preserve="all" />
+  <assembly fullname="Tavenem.Wiki.Blazor.Client" preserve="all" />
+  <assembly fullname="Tavenem.Wiki.Blazor.Server" preserve="all" />
 </linker>

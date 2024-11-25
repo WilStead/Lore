@@ -9,12 +9,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lore.Client\Lore.Client.csproj" />
-    <PackageReference Include="Marten" Version="7.33.0" />
+    <PackageReference Include="Marten" Version="7.33.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
     <PackageReference Include="Tavenem.DataStore.Marten" Version="1.0.2" />
-    <PackageReference Include="Tavenem.Wiki.Blazor.Server" Version="0.10.1-preview" />
+    <PackageReference Include="Tavenem.Wiki.Blazor.Server" Version="0.11.0-preview" />
   </ItemGroup>
   
   <ItemGroup>

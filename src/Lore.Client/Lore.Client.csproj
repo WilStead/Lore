@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.0" />
     <PackageReference Include="Tavenem.Blazor.Framework" Version="4.0.2" />
-    <PackageReference Include="Tavenem.Wiki.Blazor.Client" Version="0.10.1-preview" />
+    <PackageReference Include="Tavenem.Wiki.Blazor.Client" Version="0.11.0-preview" />
   </ItemGroup>
 
   <ItemGroup>
